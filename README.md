@@ -19,3 +19,8 @@
 - 使用 `$("your_css_selector")`验证`css`选择器是否正确
 - 使用 `$x("your_xpath_selector")`
 - 清空 `console`快捷键`ctrl+L`
+
+## 如何远程调试
+
+- 使用命令手动打开浏览器，`chrome --remote-debugging-port=9222`，如果不成功可以先加上`--headless`试一下：`chrome --headless --remote-debugging-port=9222`
+- `Puppeteer`使用`ConnectAsync`方法连接到对应的浏览器`await Puppeteer.ConnectAsync(new ConnectOptions { BrowserURL = "http://localhost:9222" });`

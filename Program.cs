@@ -1,9 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using PuppeteerSharp;
 using WebCrawlerFoundation.Demos;
 using WebCrawlerFoundation.Helpers;
 
@@ -13,12 +9,7 @@ namespace WebCrawlerFoundation
     {
         static async Task Main(string[] args)
         {
-            var headless =
-                ((JObject) JsonConvert.DeserializeObject(
-                    File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.json"))))
-                ?.GetValue("HeadLess")?.Value<bool>();
-
-            var browser = await PuppeteerHelper.GetBrowser(new LaunchOptions {Headless = headless ?? true});
+            var browser = await PuppeteerHelper.GetBrowser();
             
             ////google 翻译demo
             //var googleDemo = new GoogleTranslationDemo(browser);

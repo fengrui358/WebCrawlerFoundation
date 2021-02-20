@@ -1,3 +1,4 @@
 {
-  "HeadLess": false
+  "HeadLess": false,
+  "RemoteChromePort": 9222  
 }

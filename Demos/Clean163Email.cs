@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AngleSharp.Attributes;
 using PuppeteerSharp;
@@ -49,21 +50,31 @@ namespace WebCrawlerFoundation.Demos
                 await frame2.TypeAsync("#customMonthEndIpt", "2");
                 await frame2.TypeAsync("#customDayEndIpt", "18");
 
+                var wait = new WaitForSelectorOptions {Timeout = 5000};
                 for (int i = 0; i < 100000; i++)
                 {
-                    var b1 = await frame2.WaitForXPathAsync("//*/div[span='开始扫描']");
-                    await b1.ClickAsync();
+                    try
+                    {
+                        var b1 = await frame2.WaitForXPathAsync("//*/div[span='开始扫描']", wait);
+                        await b1.ClickAsync();
 
-                    await Task.Delay(5000);
+                        await Task.Delay(5000);
 
-                    var deleteBtn = await frame2.WaitForXPathAsync("//div[span='彻底删除']");
-                    await deleteBtn.ClickAsync();
+                        var deleteBtn = await frame2.WaitForXPathAsync("//div[span='彻底删除']", wait);
+                        await deleteBtn.ClickAsync();
 
-                    var confirmBtn = await page.WaitForXPathAsync("//div[span='确 定']");
-                    await confirmBtn.ClickAsync();
+                        var confirmBtn = await page.WaitForXPathAsync("//div[span='确 定']", wait);
+                        await confirmBtn.ClickAsync();
 
-                    var confirm2Btn = await page.WaitForXPathAsync("//div[span='确 定']");
-                    await confirm2Btn.ClickAsync();
+                        await Task.Delay(4000);
+
+                        var confirm2Btn = await page.WaitForXPathAsync("//div[span='确 定']", wait);
+                        await confirm2Btn.ClickAsync();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
                 }
             }
         }

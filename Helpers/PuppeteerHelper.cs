@@ -18,19 +18,33 @@ namespace WebCrawlerFoundation.Helpers
         /// 获取一个浏览器
         /// </summary>
         /// <returns></returns>
-        public static async Task<Browser> GetBrowser(LaunchOptions launchOptions = null)
+        public static async Task<Browser> GetBrowser()
         {
-            launchOptions ??= new LaunchOptions
+            var config = Config.LoadConfig();
+            
+            var launchOptions = new LaunchOptions
             {
-                Headless = true
+                Headless = config.HeadLess
             };
+
+            if (config.RemoteChromePort != 0)
+            {
+                try
+                {
+                    return await Puppeteer.ConnectAsync(new ConnectOptions { BrowserURL = "http://localhost:9222" });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
 
             await TryInit();
 
             var browser = await Puppeteer.LaunchAsync(launchOptions);
             return browser;
         }
-
+        
         /// <summary>
         /// 截屏保存在当前目录下
         /// </summary>

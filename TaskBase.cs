@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using PuppeteerSharp;
 
 namespace WebCrawlerFoundation
@@ -29,7 +30,7 @@ namespace WebCrawlerFoundation
 
         protected async Task<Page> GetLastingPage()
         {
-            _page ??= await Browser.NewPageAsync();
+            _page ??= (await Browser.PagesAsync()).First();
             return _page;
         }
 
