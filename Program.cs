@@ -20,14 +20,17 @@ namespace WebCrawlerFoundation
 
             var browser = await PuppeteerHelper.GetBrowser(new LaunchOptions {Headless = headless ?? true});
             
-            //google 翻译demo
-            var googleDemo = new GoogleTranslationDemo(browser);
-            var str1 = await googleDemo.ToEnglish("你好吗？");
-            ConsoleHelper.Console(str1);
+            ////google 翻译demo
+            //var googleDemo = new GoogleTranslationDemo(browser);
+            //var str1 = await googleDemo.ToEnglish("你好吗？");
+            //ConsoleHelper.Console(str1);
 
-            var str2 = await googleDemo.ToChinese("Hello world!");
-            ConsoleHelper.Console(str2);
+            //var str2 = await googleDemo.ToChinese("Hello world!");
+            //ConsoleHelper.Console(str2);
 
+            var email = new Clean163Email(browser);
+            await email.Run();
+            
             Console.ReadLine();
         }
     }
