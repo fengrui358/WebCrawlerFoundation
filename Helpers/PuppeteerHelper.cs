@@ -1,8 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AngleSharp;
 using AngleSharp.Dom;
+using FrHello.NetLib.Core.Net;
 using PuppeteerSharp;
 
 namespace WebCrawlerFoundation.Helpers
@@ -27,7 +30,7 @@ namespace WebCrawlerFoundation.Helpers
                 Headless = config.HeadLess
             };
 
-            if (config.RemoteChromePort != 0)
+            if (config.RemoteChromePort != 0 && NetHelper.CheckLocalPort(9222))
             {
                 try
                 {
@@ -93,6 +96,26 @@ namespace WebCrawlerFoundation.Helpers
             return document;
         }
 
+        /// <summary>
+        /// 根据文件名获取javascript
+        /// </summary>
+        /// <param name="javaScriptName"></param>
+        /// <returns></returns>
+        public static async Task<string> GetJavaScript(string javaScriptName)
+        {
+            var dir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "JsScripts");
+            if (Directory.Exists(dir))
+            {
+                var files = Directory.GetFiles(dir, javaScriptName, SearchOption.AllDirectories);
+                if (files.Any())
+                {
+                    return await File.ReadAllTextAsync(files[0], Encoding.UTF8);
+                }
+            }
+
+            throw new InvalidOperationException($"未找到 {javaScriptName}");
+        }
+        
         /// <summary>
         /// 初始化
         /// </summary>

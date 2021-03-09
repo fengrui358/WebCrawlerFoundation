@@ -11,7 +11,6 @@ namespace WebCrawlerFoundation
         static async Task Main(string[] args)
         {
             ExceptionlessClient.Default.Startup("");
-            ConsoleHelper.Console(new Exception("asda"));
             
             var browser = await PuppeteerHelper.GetBrowser();
             
