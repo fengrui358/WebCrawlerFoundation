@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Exceptionless;
 using WebCrawlerFoundation.Demos;
 using WebCrawlerFoundation.Helpers;
 
@@ -9,6 +10,9 @@ namespace WebCrawlerFoundation
     {
         static async Task Main(string[] args)
         {
+            ExceptionlessClient.Default.Startup("");
+            ConsoleHelper.Console(new Exception("asda"));
+            
             var browser = await PuppeteerHelper.GetBrowser();
             
             ////google 翻译demo

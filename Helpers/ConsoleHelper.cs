@@ -1,4 +1,5 @@
 ﻿using System;
+using Exceptionless;
 using NLog;
 
 namespace WebCrawlerFoundation.Helpers
@@ -50,7 +51,7 @@ namespace WebCrawlerFoundation.Helpers
 
             System.Console.ForegroundColor = defaultColor;
 
-            //exception.ToExceptionless().Submit();
+            exception.ToExceptionless().Submit();
         }
     }
 }
