@@ -115,6 +115,76 @@ namespace WebCrawlerFoundation.Helpers
 
             throw new InvalidOperationException($"未找到 {javaScriptName}");
         }
+
+        /// <summary>
+        /// 用XPath表达式查找
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="xpath"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public static async Task<ElementHandle> WaitForXPathAsyncWithOutException(this Page page, string xpath, int timeout = 100)
+        {
+            try
+            {
+                var result = await page.WaitForXPathAsync(xpath, new WaitForSelectorOptions
+                {
+                    Timeout = timeout
+                });
+
+                return result;
+            }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch (Exception e)
+            {
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 用Selector表达式查找
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="selector"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public static async Task<ElementHandle> WaitForSelectorAsyncWithOutException(this Page page, string selector, int timeout = 100)
+        {
+            try
+            {
+                var result = await page.WaitForSelectorAsync(selector, new WaitForSelectorOptions
+                {
+                    Timeout = timeout
+                });
+
+                return result;
+            }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch (Exception e)
+            {
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 注入JQuery框架
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public static async Task InjectJQuery(this Page page)
+        {
+            await InjectJavascript(page, "https://code.jquery.com/jquery-3.6.0.min.js");
+        }
+
+        public static async Task InjectJavascript(this Page page, string url)
+        {
+            var script =
+                $"var head = document.getElementsByTagName('head')[0];var script = document.createElement('script');script.type = 'text/javascript';script.src = '{url}';head.appendChild(script);";
+
+            await page.EvaluateExpressionAsync(script);
+        }
         
         /// <summary>
         /// 初始化
